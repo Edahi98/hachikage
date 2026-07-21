@@ -1,12 +1,12 @@
 import React from 'react';
 import { HashRouter, Routes, Route } from 'react-router-dom';
-import Home from './Home';
+import ChatPage from './features/chat/ui/pages/ChatPage';
 
 function AppRoutes() {
   return (
     <HashRouter>
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<ChatPage />} />
       </Routes>
     </HashRouter>
   );
