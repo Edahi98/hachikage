@@ -25,14 +25,14 @@ En lugar de escribir a mano `git rebase`, `git push`, crear un Pull Request o re
 > ✨ *"Mi motivo de desarrollar es automatizar el control de versiones para los proyectos en desarrollo, y en el futuro."*
 > — Edahi98
 
-El corazón de Hachikage es su **enrutador de modelos de IA basado en transformers, ejecutados 100% en local mediante [Ollama](https://ollama.com/)** 🧠🔀🔒.
+El corazón de Hachikage es su **enrutador de modelos de IA** 🧠🔀🔒: un **clasificador basado en transformers** analiza la intención de cada mensaje del chat y decide a cuál **modelo** enviarlo — el clasificador y los modelos son dos componentes distintos. Ambos se ejecutan 100% en local mediante [Ollama](https://ollama.com/).
 
-No hay llamadas a APIs de IA en la nube ni proveedores externos: cada mensaje del chat se **enruta dinámicamente** hacia el modelo local servido por Ollama más adecuado para la tarea — entender la intención del usuario, planear los comandos de Git/GitHub necesarios, redactar descripciones de PR, resolver conflictos, etc. Todo corre en la máquina del usuario.
+No hay llamadas a APIs de IA en la nube ni proveedores externos: el clasificador **enruta dinámicamente** cada mensaje hacia el modelo local (servido por Ollama) más adecuado para la tarea — entender la intención del usuario, planear los comandos de Git/GitHub necesarios, redactar descripciones de PR, resolver conflictos, etc. Todo corre en la máquina del usuario.
 
 Esto habilita:
 
-- 🧩 **Elegir el modelo local óptimo por tarea** — razonamiento, generación de texto o clasificación de intención no tienen por qué resolverse con el mismo modelo de Ollama.
-- 🔌 **Cambiar de modelo local sin fricción** — descargar o sustituir el modelo servido por Ollama no implica reescribir la lógica de negocio de la app.
+- 🧩 **Elegir el modelo local óptimo por tarea** — el clasificador transformer distingue entre razonamiento, generación de texto o clasificación de intención, y enruta cada una a un modelo de Ollama distinto en lugar de forzar todo al mismo.
+- 🔌 **Cambiar de modelo local sin fricción** — descargar o sustituir uno de los modelos servidos por Ollama no implica reescribir ni el clasificador ni la lógica de negocio de la app.
 - 🔒 **Privacidad y funcionamiento sin conexión** — al correr todo en local, el código, los commits y los mensajes del chat nunca salen de la máquina del usuario hacia un tercero.
 - 📈 **Crecer sin límite** — pensada desde el día uno como una aplicación **grande en funciones**, no un prototipo desechable; el flujo de automatización de Git nunca queda acoplado a un modelo de Ollama específico.
 
@@ -42,7 +42,7 @@ Esto habilita:
 
 | Tecnología | Uso |
 |---|---|
-| 🦙 [**Ollama**](https://ollama.com/) | Motor de IA — ejecuta los modelos (transformers) 100% en local, sin nube ni proveedores externos |
+| 🦙 [**Ollama**](https://ollama.com/) | Motor de IA — ejecuta en local (sin nube ni proveedores externos) tanto el clasificador transformer del router como los modelos a los que enruta |
 | ⚡ [**Electron Forge**](https://www.electronforge.io/) | Empaquetado y orquestación del build ([`forge.config.ts`](forge.config.ts)) |
 | 📦 **Webpack** | Bundlea main, preload y renderer por separado ([`webpack.main.config.ts`](webpack.main.config.ts), [`webpack.renderer.config.ts`](webpack.renderer.config.ts)) |
 | 🟦 **TypeScript** `^5.9` | Tipado estático; chequeo vía `npm run typecheck` |
