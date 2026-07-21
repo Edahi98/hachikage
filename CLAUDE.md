@@ -83,6 +83,15 @@ Same rule as the frontend: no standalone/loose functions in main-process code �
 
 All IPC communication must follow Electron's **"Pattern 2: Renderer to main (two-way)"**: main registers each channel with `ipcMain.handle(channel, ...)` (one per file in `handles/`) and the renderer calls it with `ipcRenderer.invoke(channel, ...)` (exposed to the renderer via `contextBridge` in [src/preload.ts](src/preload.ts)). Do not use the one-way `ipcRenderer.send` / `ipcMain.on` pattern for renderer→main calls.
 
+## Versioning & commit conventions
+
+- **[Semantic Versioning](https://semver.org/) (SemVer)** governs the `version` field in [package.json](package.json): `MAJOR.MINOR.PATCH`. While the project is in initial development (`0.x.y`), breaking changes bump `MINOR` and everything else (features, fixes) bumps `PATCH` unless it's a deliberate breaking change; once `1.0.0` is reached, breaking changes bump `MAJOR`, backward-compatible features bump `MINOR`, and backward-compatible fixes bump `PATCH`.
+- **[Conventional Commits](https://www.conventionalcommits.org/)** governs every commit message: `<type>(<optional scope>): <description>`, e.g. `feat(chat): add message retry action` or `fix(main): prevent window flashing white on launch`. Common types: `feat` (new capability, bumps `MINOR`), `fix` (bug fix, bumps `PATCH`), `docs`, `chore`, `refactor`, `style`, `test`, `build`, `ci`. A breaking change adds a `BREAKING CHANGE:` footer (or a `!` after the type/scope) and bumps `MAJOR` once past `1.0.0`.
+- Bump `version` in [package.json](package.json) as part of the same commit that justifies the bump (usually the `feat`/`fix` commit itself, or a dedicated `chore(release):` commit) — never leave it stale relative to the commit history.
+- Tag released versions with an annotated git tag matching the new version, prefixed with `v` (e.g. `v0.2.0`), pointing at the commit that introduced it.
+
 ## Keeping this file up to date
 
 **Any change to the architecture or design conventions above (new folder convention, new pattern, new layer, etc.) must be added to this file as part of that same change** — this document must always reflect the current architecture, not a past snapshot.
+
+**Any major change (new feature, new architectural layer, stack/dependency change, new command, etc.) must also update [README.md](README.md) as part of that same change** — the README's stack, architecture, and purpose sections must stay in sync with the actual state of the project, not describe a past version of it.
