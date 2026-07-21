@@ -25,15 +25,16 @@ En lugar de escribir a mano `git rebase`, `git push`, crear un Pull Request o re
 > ✨ *"Mi motivo de desarrollar es automatizar el control de versiones para los proyectos en desarrollo, y en el futuro."*
 > — Edahi98
 
-El corazón de Hachikage es su **enrutador de modelos de IA basado en transformers** 🧠🔀.
+El corazón de Hachikage es su **enrutador de modelos de IA basado en transformers, ejecutados 100% en local mediante [Ollama](https://ollama.com/)** 🧠🔀🔒.
 
-En vez de atar la app a un único proveedor o modelo de IA, cada mensaje del chat se **enruta dinámicamente** hacia el modelo (o combinación de modelos) más adecuado para la tarea: entender la intención del usuario, planear los comandos de Git/GitHub necesarios, redactar descripciones de PR, resolver conflictos, etc.
+No hay llamadas a APIs de IA en la nube ni proveedores externos: cada mensaje del chat se **enruta dinámicamente** hacia el modelo local servido por Ollama más adecuado para la tarea — entender la intención del usuario, planear los comandos de Git/GitHub necesarios, redactar descripciones de PR, resolver conflictos, etc. Todo corre en la máquina del usuario.
 
 Esto habilita:
 
-- 🧩 **Elegir el modelo óptimo por tarea** — razonamiento, generación de texto o clasificación de intención no tienen por qué resolverse con el mismo modelo.
-- 🔌 **Intercambiar proveedores de IA sin fricción** — añadir o cambiar de modelo no implica reescribir la lógica de negocio de la app.
-- 📈 **Crecer sin límite** — pensada desde el día uno como una aplicación **grande en funciones**, no un prototipo desechable; el flujo de automatización de Git nunca queda acoplado a un backend de IA específico.
+- 🧩 **Elegir el modelo local óptimo por tarea** — razonamiento, generación de texto o clasificación de intención no tienen por qué resolverse con el mismo modelo de Ollama.
+- 🔌 **Cambiar de modelo local sin fricción** — descargar o sustituir el modelo servido por Ollama no implica reescribir la lógica de negocio de la app.
+- 🔒 **Privacidad y funcionamiento sin conexión** — al correr todo en local, el código, los commits y los mensajes del chat nunca salen de la máquina del usuario hacia un tercero.
+- 📈 **Crecer sin límite** — pensada desde el día uno como una aplicación **grande en funciones**, no un prototipo desechable; el flujo de automatización de Git nunca queda acoplado a un modelo de Ollama específico.
 
 ---
 
@@ -41,6 +42,7 @@ Esto habilita:
 
 | Tecnología | Uso |
 |---|---|
+| 🦙 [**Ollama**](https://ollama.com/) | Motor de IA — ejecuta los modelos (transformers) 100% en local, sin nube ni proveedores externos |
 | ⚡ [**Electron Forge**](https://www.electronforge.io/) | Empaquetado y orquestación del build ([`forge.config.ts`](forge.config.ts)) |
 | 📦 **Webpack** | Bundlea main, preload y renderer por separado ([`webpack.main.config.ts`](webpack.main.config.ts), [`webpack.renderer.config.ts`](webpack.renderer.config.ts)) |
 | 🟦 **TypeScript** `^5.9` | Tipado estático; chequeo vía `npm run typecheck` |
@@ -105,7 +107,7 @@ El renderer combina **tres enfoques complementarios** aplicados a cada *feature*
 
 - **View** — los componentes (`ui/atoms`, `ui/molecules`, `ui/organisms`, `ui/templates`, páginas). Reciben props y renderizan; cero lógica de negocio, cero llamadas HTTP. Ejemplo real: [`ChatMessageBubble.tsx`](src/features/chat/ui/molecules/ChatMessageBubble.tsx), [`ChatInputBar.tsx`](src/features/chat/ui/organisms/ChatInputBar.tsx).
 - **ViewModel** — los hooks (`useX`, en `application/` o `shared/`). Guardan el estado de la UI, llaman casos de uso/servicios y exponen datos + handlers a la View. Es la única puerta de entrada de un componente hacia la lógica.
-- **Model** — entidades de `domain/`, casos de uso de `application/` y adaptadores de `infrastructure/services/` (donde vivirá, por ejemplo, la llamada real al enrutador de modelos de IA).
+- **Model** — entidades de `domain/`, casos de uso de `application/` y adaptadores de `infrastructure/services/` (donde vivirá, por ejemplo, la llamada real a la API local de Ollama para el enrutador de modelos de IA).
 
 **Reglas estructurales que se respetan en todo el frontend** (detalladas en [`CLAUDE.md`](CLAUDE.md)):
 

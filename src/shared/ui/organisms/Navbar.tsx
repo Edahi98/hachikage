@@ -25,7 +25,7 @@ function Navbar() {
         style={noDragRegionStyle}
         className="rounded-full bg-blue-500/10 px-3 py-1 text-xs font-medium text-blue-300 shadow-sm"
       >
-        Modelo: Auto
+        Modelo: Ollama (local)
       </span>
     </header>
   );
