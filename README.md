@@ -6,6 +6,8 @@
 
 *Electron · React · TypeScript · Tailwind*
 
+![Vista previa de Hachikage](img/preview.png)
+
 </div>
 
 ---
