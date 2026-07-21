@@ -12,6 +12,9 @@
 
 ---
 
+> [!WARNING]
+> 🚧 **Hachikage está en una etapa muy temprana de desarrollo.** Por ahora solo existe la interfaz (UI) — el chat, el control de versiones y el enrutador de modelos de IA **todavía no están implementados ni funcionan**. No uses esta app para automatizar tu flujo de Git/GitHub todavía.
+
 ## 📖 ¿Qué es Hachikage?
 
 **Hachikage** es una aplicación de escritorio que **automatiza el control de versiones** (Git/GitHub) de tus proyectos, presentes y futuros, a través de una interfaz de **chat conversacional**.
